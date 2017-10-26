@@ -483,6 +483,11 @@ static void* rt_thread(void* arg) {
         int ready;
         struct epoll_event ev;
 
+        if (CO->NMT->operatingState == 0x7f) { 
+            CO->NMT->resetCommand = CO_RESET_COMM;
+            //CO_sendNMTcommand(CO, CO_NMT_RESET_COMMUNICATION, CO->NMT->nodeId);
+        }
+
         ready = epoll_wait(rt_thread_epoll_fd, &ev, 1, -1);
 
         if(ready != 1) {
